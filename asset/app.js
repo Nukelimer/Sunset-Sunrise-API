@@ -8,7 +8,6 @@ const nauticalTwilightStart = document.querySelector(
   '.nautical_twilight_begin'
 );
 const allList = document.querySelector('.sun');
-
 const nauticalTwilightEnd = document.querySelector('.nautical_twilight_end');
 const astronomicalTwilightStart = document.querySelector(
   '.astronomical_twilight_begin'
@@ -16,10 +15,8 @@ const astronomicalTwilightStart = document.querySelector(
 const astronomicalTwilightEnd = document.querySelector(
   '.astronomical_twilight_end'
 );
-
-const success = (suc) => {
-
-};
+const responseLocation = document.querySelector('.location')
+const success = (suc) => {};
 const error = (err) => {
   allList.textContent =
     'Error in getting your location, please grant your browser LOCATION permission...';
@@ -37,10 +34,32 @@ const fetchData = () => {
     .then((data) => receivedResponse(data));
 };
 
-const receivedResponse = (data) => {
+const fetchLocation = () => {
+  fetch('https://ipinfo.io?token=aa9cfda629f2fe')
+    .then((response) => response.json())
+    .then((data_) => {
+      receivedLocation(data_);
+    });
+};
+
+const receivedLocation = (data_) => {
+
+    let network = `${data_['org']}`.substring(7);
+    let region = `${data_['country']}`
+    let city = `${data_['city']}`
+  
+
+    responseLocation.textContent = `Your location is ${city},  ${region} and you are using ${network} internet services.`
+
+}
+
+
+
+
+
+const receivedResponse = (data, data_) => {
   if (data) {
- 
-    sunUp.innerHTML = `The Sun will be up by: ${data['results']['sunrise']}`;
+    sunUp.textContent = `The Sun will be up by: ${data['results']['sunrise']}`;
     sunset.textContent = ` The Sun will be down by : ${data['results']['sunset']}`;
     solarNoon.textContent = ` The Solar Moon will be down by : ${data['results']['solar_noon']}`;
     dayLength.textContent = ` The Length of today is : ${data['results']['day_length']}`;
@@ -54,3 +73,4 @@ const receivedResponse = (data) => {
 };
 
 fetchData();
+fetchLocation()
