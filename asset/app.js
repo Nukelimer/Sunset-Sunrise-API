@@ -44,12 +44,17 @@ const fetchLocation = () => {
 
 const receivedLocation = (data_) => {
 
-    let network = `${data_['org']}`.substring(7);
-    let region = `${data_['country']}`
-    let city = `${data_['city']}`
-  
+    if (data_) {
+        let network = `${data_['org']}`.substring(7);
+        let region = `${data_['country']}`
+        let city = `${data_['city']}`
+      
+    
+        responseLocation.textContent = `Your location is ${city},  ${region} and you are using ${network} internet services.`
+    } else {
+        response.style.display = 'none';
+}
 
-    responseLocation.textContent = `Your location is ${city},  ${region} and you are using ${network} internet services.`
 
 }
 
